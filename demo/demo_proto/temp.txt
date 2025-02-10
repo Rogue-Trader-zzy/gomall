@@ -1,0 +1,32 @@
+kitex_gen/pbapi/echo.pb.fast.go:7:2: no required module provides package github.com/cloudwego/fastpb; to add it:
+        go get github.com/cloudwego/fastpb
+biz/service/echo.go:5:2: package github.com/cloudwego/biz-demo/gomall/demo/demo_proto/kitex_gen/pbapi imports google.golang.org/protobuf/runtime/protoimpl from implicitly required module; to add missing requirements, run:
+        go get google.golang.org/protobuf@v1.33.0
+conf/conf.go:9:2: no required module provides package github.com/cloudwego/kitex/pkg/klog; to add it:
+        go get github.com/cloudwego/kitex/pkg/klog
+conf/conf.go:10:2: no required module provides package github.com/kr/pretty; to add it:
+        go get github.com/kr/pretty
+conf/conf.go:11:2: no required module provides package gopkg.in/validator.v2; to add it:
+        go get gopkg.in/validator.v2
+conf/conf.go:12:2: no required module provides package gopkg.in/yaml.v2; to add it:
+        go get gopkg.in/yaml.v2
+kitex_gen/pbapi/echoservice/client.go:8:2: no required module provides package github.com/cloudwego/kitex/client; to add it:
+        go get github.com/cloudwego/kitex/client
+kitex_gen/pbapi/echoservice/client.go:9:2: no required module provides package github.com/cloudwego/kitex/client/callopt; to add it:
+        go get github.com/cloudwego/kitex/client/callopt
+kitex_gen/pbapi/echoservice/echoservice.go:10:2: no required module provides package github.com/cloudwego/kitex/pkg/serviceinfo; to add it:
+        go get github.com/cloudwego/kitex/pkg/serviceinfo
+kitex_gen/pbapi/echoservice/echoservice.go:11:2: no required module provides package github.com/cloudwego/kitex/pkg/streaming; to add it:
+        go get github.com/cloudwego/kitex/pkg/streaming
+kitex_gen/pbapi/echoservice/invoker.go:7:2: no required module provides package github.com/cloudwego/kitex/server; to add it:
+        go get github.com/cloudwego/kitex/server
+main.go:12:2: package github.com/cloudwego/biz-demo/gomall/demo/demo_proto/kitex_gen/pbapi/echoservice imports google.golang.org/protobuf/proto from implicitly required module; to add missing requirements, run:
+        go get google.golang.org/protobuf@v1.33.0
+main.go:8:2: no required module provides package github.com/cloudwego/kitex/pkg/rpcinfo; to add it:
+        go get github.com/cloudwego/kitex/pkg/rpcinfo
+main.go:10:2: no required module provides package github.com/kitex-contrib/obs-opentelemetry/logging/logrus; to add it:
+        go get github.com/kitex-contrib/obs-opentelemetry/logging/logrus
+main.go:13:2: no required module provides package go.uber.org/zap/zapcore; to add it:
+        go get go.uber.org/zap/zapcore
+main.go:14:2: no required module provides package gopkg.in/natefinch/lumberjack.v2; to add it:
+        go get gopkg.in/natefinch/lumberjack.v2
