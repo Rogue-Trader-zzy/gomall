@@ -1,7 +1,7 @@
 package dal
 
 import (
-	"github.com/cloudwego/biz-demo/gomall/demo/demo_proto/biz/dal/mysql"
+	"github.com/Rogue-Trader-zzy/gomall/demo/demo_proto/biz/dal/mysql"
 	// "github.com/cloudwego/biz-demo/gomall/demo/demo_proto/biz/dal/redis"
 )
 

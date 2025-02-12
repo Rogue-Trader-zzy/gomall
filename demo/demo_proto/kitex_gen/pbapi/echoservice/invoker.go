@@ -3,12 +3,12 @@
 package echoservice
 
 import (
-	pbapi "github.com/cloudwego/biz-demo/gomall/demo/demo_proto/kitex_gen/pbapi"
+	pbapi "github.com/Rogue-Trader-zzy/gomall/demo/demo_proto/kitex_gen/pbapi"
 	server "github.com/cloudwego/kitex/server"
 )
 
 // NewInvoker creates a server.Invoker with the given handler and options.
-func NewInvoker(handler pbapi.EchoService, opts ...server.Option) server.Invoker {
+func NewInvoker(handler pbapi.Echo, opts ...server.Option) server.Invoker {
 	var options []server.Option
 
 	options = append(options, opts...)

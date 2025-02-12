@@ -4,7 +4,7 @@ package echoservice
 
 import (
 	"context"
-	pbapi "github.com/cloudwego/biz-demo/gomall/demo/demo_proto/kitex_gen/pbapi"
+	pbapi "github.com/Rogue-Trader-zzy/gomall/demo/demo_proto/kitex_gen/pbapi"
 	client "github.com/cloudwego/kitex/client"
 	callopt "github.com/cloudwego/kitex/client/callopt"
 )
@@ -25,7 +25,7 @@ func NewClient(destService string, opts ...client.Option) (Client, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &kEchoServiceClient{
+	return &kEchoClient{
 		kClient: newServiceClient(kc),
 	}, nil
 }
@@ -39,11 +39,11 @@ func MustNewClient(destService string, opts ...client.Option) Client {
 	return kc
 }
 
-type kEchoServiceClient struct {
+type kEchoClient struct {
 	*kClient
 }
 
-func (p *kEchoServiceClient) Echo(ctx context.Context, Req *pbapi.Request, callOptions ...callopt.Option) (r *pbapi.Response, err error) {
+func (p *kEchoClient) Echo(ctx context.Context, Req *pbapi.Request, callOptions ...callopt.Option) (r *pbapi.Response, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.Echo(ctx, Req)
 }

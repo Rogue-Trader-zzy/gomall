@@ -1,22 +1,22 @@
 package main
 
 import (
+	"log"
 	"net"
 	"time"
-	"log"
 
-
-	"github.com/joho/godotenv"
+	"github.com/Rogue-Trader-zzy/gomall/demo/demo_proto/biz/dal"
+	"github.com/Rogue-Trader-zzy/gomall/demo/demo_proto/conf"
+	"github.com/Rogue-Trader-zzy/gomall/demo/demo_proto/kitex_gen/pbapi/echoservice"
+	"github.com/Rogue-Trader-zzy/gomall/demo/demo_proto/middleware"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"github.com/cloudwego/kitex/server"
+	"github.com/joho/godotenv"
 	kitexlogrus "github.com/kitex-contrib/obs-opentelemetry/logging/logrus"
-	"github.com/cloudwego/biz-demo/gomall/demo/demo_proto/conf"
-	"github.com/cloudwego/biz-demo/gomall/demo/demo_proto/biz/dal"
-	"github.com/cloudwego/biz-demo/gomall/demo/demo_proto/kitex_gen/pbapi/echoservice"
+	consul "github.com/kitex-contrib/registry-consul"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
-	consul "github.com/kitex-contrib/registry-consul"
 )
 
 func main() {
@@ -24,8 +24,9 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	dal.Init()
+
 	opts := kitexInit()
+	dal.Init()
 
 	svr := echoservice.NewServer(new(EchoServiceImpl), opts...)
 
@@ -41,7 +42,7 @@ func kitexInit() (opts []server.Option) {
 	if err != nil {
 		panic(err)
 	}
-	opts = append(opts, server.WithServiceAddr(addr))
+	opts = append(opts, server.WithServiceAddr(addr), server.WithMiddleware(middleware.Middleware))
 
 	// service info
 	opts = append(opts, server.WithServerBasicInfo(&rpcinfo.EndpointBasicInfo{

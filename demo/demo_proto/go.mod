@@ -1,4 +1,4 @@
-module github.com/cloudwego/biz-demo/gomall/demo/demo_proto
+module github.com/Rogue-Trader-zzy/gomall/demo/demo_proto
 
 go 1.22.12
 
