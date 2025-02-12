@@ -1,12 +1,14 @@
 package mysql
 
 import (
-	"github.com/cloudwego/biz-demo/gomall/demo/demo_proto/conf"
+	"fmt"
+	"os"
+
+	"github.com/Rogue-Trader-zzy/gomall/demo/demo_proto/biz/model"
+	"github.com/Rogue-Trader-zzy/gomall/demo/demo_proto/conf"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"fmt"
-	"os"
 )
 
 var (
@@ -15,7 +17,7 @@ var (
 )
 
 func Init() {
-	dsn := fmt.Sprintf(conf.GetConf().MySQL.DSN, 
+	dsn := fmt.Sprintf(conf.GetConf().MySQL.DSN,
 		os.Getenv("MYSQL_USER"),
 		os.Getenv("MYSQL_PASSWORD"),
 		os.Getenv("MYSQL_HOST"),
@@ -38,10 +40,9 @@ func Init() {
 	var v Version
 
 	err = DB.Raw("select version() as version").Scan(&v).Error
-
 	if err != nil {
 		panic(err)
 	}
-
+	DB.AutoMigrate(&model.User{})
 	fmt.Println(v)
 }

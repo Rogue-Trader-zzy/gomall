@@ -5,7 +5,7 @@ package echoservice
 import (
 	"context"
 	"errors"
-	pbapi "github.com/cloudwego/biz-demo/gomall/demo/demo_proto/kitex_gen/pbapi"
+	pbapi "github.com/Rogue-Trader-zzy/gomall/demo/demo_proto/kitex_gen/pbapi"
 	client "github.com/cloudwego/kitex/client"
 	kitex "github.com/cloudwego/kitex/pkg/serviceinfo"
 	streaming "github.com/cloudwego/kitex/pkg/streaming"
@@ -60,7 +60,7 @@ func NewServiceInfoForStreamClient() *kitex.ServiceInfo {
 
 func newServiceInfo(hasStreaming bool, keepStreamingMethods bool, keepNonStreamingMethods bool) *kitex.ServiceInfo {
 	serviceName := "EchoService"
-	handlerType := (*pbapi.EchoService)(nil)
+	handlerType := (*pbapi.Echo)(nil)
 	methods := map[string]kitex.MethodInfo{}
 	for name, m := range serviceMethods {
 		if m.IsStreaming() && !keepStreamingMethods {
@@ -96,13 +96,13 @@ func echoHandler(ctx context.Context, handler interface{}, arg, result interface
 		if err := st.RecvMsg(req); err != nil {
 			return err
 		}
-		resp, err := handler.(pbapi.EchoService).Echo(ctx, req)
+		resp, err := handler.(pbapi.Echo).Echo(ctx, req)
 		if err != nil {
 			return err
 		}
 		return st.SendMsg(resp)
 	case *EchoArgs:
-		success, err := handler.(pbapi.EchoService).Echo(ctx, s.Req)
+		success, err := handler.(pbapi.Echo).Echo(ctx, s.Req)
 		if err != nil {
 			return err
 		}
