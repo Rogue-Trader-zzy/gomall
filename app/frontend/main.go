@@ -9,6 +9,7 @@ import (
 
 	"github.com/Rogue-Trader-zzy/gomall/app/frontend/biz/router"
 	"github.com/Rogue-Trader-zzy/gomall/app/frontend/conf"
+	"github.com/Rogue-Trader-zzy/gomall/app/frontend/infra/rpc"
 	"github.com/Rogue-Trader-zzy/gomall/app/frontend/middleware"
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/app/middlewares/server/recovery"
@@ -32,6 +33,7 @@ func main() {
 	_ = godotenv.Load()
 	// init dal
 	// dal.Init()
+	rpc.Init()
 	address := conf.GetConf().Hertz.Address
 	h := server.New(server.WithHostPorts(address))
 

@@ -2,7 +2,6 @@ package auth
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/Rogue-Trader-zzy/gomall/app/frontend/biz/service"
 	"github.com/Rogue-Trader-zzy/gomall/app/frontend/biz/utils"
@@ -28,7 +27,6 @@ func Login(ctx context.Context, c *app.RequestContext) {
 		utils.SendErrResponse(ctx, c, consts.StatusOK, err)
 		return
 	}
-	fmt.Println("redirect: ", redirect)
 	c.Redirect(consts.StatusOK, []byte(redirect))
 	// utils.SendSuccessResponse(ctx, c, consts.StatusOK, "done!")
 }

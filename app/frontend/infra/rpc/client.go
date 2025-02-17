@@ -1,30 +1,30 @@
 package rpc
 
 import (
-	"log"
 	"sync"
 
+	"github.com/Rogue-Trader-zzy/gomall/app/frontend/conf"
+	frontendUtils "github.com/Rogue-Trader-zzy/gomall/app/frontend/utils"
 	userservice "github.com/Rogue-Trader-zzy/gomall/rpc_gen/kitex_gen/user/userservice"
+	"github.com/cloudwego/kitex/client"
 	consul "github.com/kitex-contrib/registry-consul"
 )
 
 var (
-	userClient = userservice.Client
+	UserClient userservice.Client
 
 	once sync.Once
 )
 
 func Init() {
-	once.Do(func() {})
+	once.Do(func() {
+		iniUserClient()
+	})
 }
 
-func iniUserClient(client userservice.UserService) {
-	r, err := consul.NewConsulResolver("127.0.0.1:8500")
-	if err != nil {
-		log.Fatal(err)
-	}
-	client, err = userservice.NewClient("greet.server", client.WithResolver(r))
-	if err != nil {
-		log.Fatal(err)
-	}
+func iniUserClient() {
+	r, err := consul.NewConsulResolver(conf.GetConf().Hertz.RegistryAddr)
+	frontendUtils.MustHandleError(err)
+	UserClient, err = userservice.NewClient("user", client.WithResolver(r))
+	frontendUtils.MustHandleError(err)
 }

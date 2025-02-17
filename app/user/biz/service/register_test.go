@@ -17,9 +17,9 @@ func TestRegister_Run(t *testing.T) {
 	// init req and assert value
 
 	req := &user.RegisterReq{
-		Email:           "demo@admin.com",
-		Password:        "123456",
-		PasswordConfirm: "123456",
+		Email:           "dem@admin.com",
+		Password:        "12456",
+		PasswordConfirm: "12456",
 	}
 	resp, err := s.Run(req)
 	t.Logf("err: %v", err)
