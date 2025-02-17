@@ -18,19 +18,12 @@ func (c Category) TableName() string {
 	return "category"
 }
 
-type ProductQuery struct {
+type CategoryQuery struct {
 	ctx context.Context
 	db  *gorm.DB
 }
 
-func (p ProductQuery) GetById(productId int) (product Product, err error) {
-	err = p.db.WithContext(p.ctx).Model(&Product{}).First(&product, productId).Error
-	return
-}
-
-func (p ProductQuery) SearchProducts(q string) (products []*Product, err error) {
-	err = p.db.WithContext(p.ctx).Model(&Product{}).Find(&products, "name like ? or description like ?",
-		"%"+q+"%", "%"+q+"%",
-	).Error
+func (c CategoryQuery) GetProductByCategoryName(name string) (categories []Category, err error) {
+	err = c.db.WithContext(c.ctx).Model(&Category{}).Where(&Category{Name: name}).Preload("Products").Find(&categories).Error
 	return
 }
