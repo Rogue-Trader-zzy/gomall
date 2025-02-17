@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package product;
 
+option go_package = "/product";
+
 service ProductService {
     rpc ListProducts (ListProductsReq) returns (ListProductsResp) {}
     rpc GetProduct (GetProductReq) returns (GetProductResp) {}

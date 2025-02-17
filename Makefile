@@ -18,5 +18,5 @@ gen-user:
 
 .PHONY: gen-product
 gen-product:
-	@cd rpc_gen && cwgo server --type RPC --service product --module ${ROOT_MOD}/app/product --pass "-use ${ROOT_MOD}/rpc_gen/kitex_gen" -I ../idl --idl ../idl/product.proto
 	@cd app/product && cwgo client -type RPC --service product --module ${ROOT_MOD}/rpc_gen -I ../../idl --idl ../../idl/product.proto
+	@cd rpc_gen && cwgo server --type RPC --service product --module ${ROOT_MOD}/app/product --pass "-use ${ROOT_MOD}/rpc_gen/kitex_gen" -I ../idl --idl ../idl/product.proto
