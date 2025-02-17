@@ -1,4 +1,4 @@
-export ROOT_MOD=${ROOT_MOD}
+export ROOT_MOD=github.com/Rogue-Trader-zzy/gomall
 .PHONY: gen-demo-proto
 gen-demo-proto:
 	@cd demo/demo_proto && cwgo server -I ../../idl --type RPC --module ${ROOT_MOD}/demo/demo_proto --service demo_proto --idl ../../idl/echo.proto
@@ -13,5 +13,10 @@ gen-frontend:
 
 .PHONY: gen-user
 gen-user:
-	@cd app/user && cwgo server --type RPC --service user --module ${ROOT_MOD}/app/user --pass "-use ${ROOT_MOD}/rpc_gen/kitex_gen" -I ../../idl --idl ../../idl/user.proto
+	@cd rpc_gen && cwgo server --type RPC --service user --module ${ROOT_MOD}/app/user --pass "-use ${ROOT_MOD}/rpc_gen/kitex_gen" -I ../idl --idl ../idl/user.proto
 	@cd app/user && cwgo client -type RPC --service user --module ${ROOT_MOD}/rpc_gen -I ../idl --idl ../idl/user.proto
+
+.PHONY: gen-product
+gen-product:
+	@cd rpc_gen && cwgo server --type RPC --service product --module ${ROOT_MOD}/app/product --pass "-use ${ROOT_MOD}/rpc_gen/kitex_gen" -I ../idl --idl ../idl/product.proto
+	@cd app/product && cwgo client -type RPC --service product --module ${ROOT_MOD}/rpc_gen -I ../../idl --idl ../../idl/product.proto
