@@ -36,3 +36,10 @@ func (p ProductQuery) SearchProducts(q string) (products []*Product, err error) 
 	).Error
 	return
 }
+
+func NewProductQuery(ctx context.Context, db *gorm.DB) *ProductQuery {
+	return &ProductQuery{
+		ctx: ctx,
+		db:  db,
+	}
+}

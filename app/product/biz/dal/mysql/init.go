@@ -4,9 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Rogue-Trader-zzy/gomall/app/product/app/product/biz/model"
-	"github.com/Rogue-Trader-zzy/gomall/app/product/app/product/conf"
 	"github.com/Rogue-Trader-zzy/gomall/app/product/biz/model"
+	"github.com/Rogue-Trader-zzy/gomall/app/product/conf"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"

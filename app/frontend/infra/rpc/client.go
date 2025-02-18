@@ -5,15 +5,16 @@ import (
 
 	"github.com/Rogue-Trader-zzy/gomall/app/frontend/conf"
 	frontendUtils "github.com/Rogue-Trader-zzy/gomall/app/frontend/utils"
+	productcatalogservice "github.com/Rogue-Trader-zzy/gomall/rpc_gen/kitex_gen/product/productcatalogservice"
 	userservice "github.com/Rogue-Trader-zzy/gomall/rpc_gen/kitex_gen/user/userservice"
 	"github.com/cloudwego/kitex/client"
 	consul "github.com/kitex-contrib/registry-consul"
 )
 
 var (
-	UserClient userservice.Client
-
-	once sync.Once
+	UserClient    userservice.Client
+	ProductClient productcatalogservice.Client
+	once          sync.Once
 )
 
 func Init() {
