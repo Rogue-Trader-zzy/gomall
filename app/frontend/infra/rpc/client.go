@@ -20,12 +20,26 @@ var (
 func Init() {
 	once.Do(func() {
 		iniUserClient()
+		iniProductClient()
 	})
 }
 
 func iniUserClient() {
+	var opts []client.Option
 	r, err := consul.NewConsulResolver(conf.GetConf().Hertz.RegistryAddr)
 	frontendUtils.MustHandleError(err)
-	UserClient, err = userservice.NewClient("user", client.WithResolver(r))
+	opts = append(opts, client.WithResolver(r))
+
+	UserClient, err = userservice.NewClient("user", opts...)
+	frontendUtils.MustHandleError(err)
+}
+
+func iniProductClient() {
+	var opts []client.Option
+	r, err := consul.NewConsulResolver(conf.GetConf().Hertz.RegistryAddr)
+	frontendUtils.MustHandleError(err)
+	opts = append(opts, client.WithResolver(r))
+
+	ProductClient, err = productcatalogservice.NewClient("product", opts...)
 	frontendUtils.MustHandleError(err)
 }

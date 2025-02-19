@@ -4,6 +4,7 @@
                 {{range .Items}}
                 <div class="card col-xl-3 col-lg-4 col-md-6 col-sm-12 p-2 border-0">
                     <img src={{.Picture}} class="card-img-top" alt="...">
+                        <!-- style="max-height: 100%; min-height: 100%;"> -->
                     <div class="card-body">
                         <p class="card-text">{{.Name}}</p>
                         <h5 class="card-title">{{.Price}}</h5>
@@ -11,6 +12,5 @@
                 </div>
                 {{end}}
             </div>
-            
-{{template "footer" .}}
-{{end}}
+    {{ template "footer" . }}
+{{ end }}

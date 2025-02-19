@@ -18,5 +18,5 @@ func Register(r *server.Hertz) {
 
 	root := r.Group("/", rootMw()...)
 	root.GET("/product", append(_getproductMw(), product.GetProduct)...)
-	root.GET("/product", append(_searchproductsMw(), product.SearchProducts)...)
+	root.GET("/search", append(_searchproductsMw(), product.SearchProducts)...)
 }
