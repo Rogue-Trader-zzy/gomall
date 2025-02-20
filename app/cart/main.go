@@ -5,11 +5,14 @@ import (
 	"net"
 	"time"
 
+	"github.com/Rogue-Trader-zzy/gomall/app/cart/biz/dal"
 	"github.com/Rogue-Trader-zzy/gomall/app/cart/conf"
+	"github.com/Rogue-Trader-zzy/gomall/app/cart/rpc"
 	"github.com/Rogue-Trader-zzy/gomall/rpc_gen/kitex_gen/cart/cartservice"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"github.com/cloudwego/kitex/server"
+	"github.com/joho/godotenv"
 	kitexlogrus "github.com/kitex-contrib/obs-opentelemetry/logging/logrus"
 	consul "github.com/kitex-contrib/registry-consul"
 	"go.uber.org/zap/zapcore"
@@ -17,6 +20,10 @@ import (
 )
 
 func main() {
+	_ = godotenv.Load()
+	dal.Init()
+	rpc.InitClient()
+
 	opts := kitexInit()
 
 	svr := cartservice.NewServer(new(CartServiceImpl), opts...)

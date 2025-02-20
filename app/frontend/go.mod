@@ -5,7 +5,7 @@ go 1.22.12
 replace github.com/apache/thrift => github.com/apache/thrift v0.13.0
 
 require (
-	github.com/Rogue-Trader-zzy/gomall/rpc_gen v0.0.0-20250218151300-fcf225e82332
+	github.com/Rogue-Trader-zzy/gomall/rpc_gen v0.0.0-20250219130128-4b6b3d8145ae
 	github.com/cloudwego/hertz v0.9.5
 	github.com/cloudwego/kitex v0.12.1
 	github.com/hertz-contrib/cors v0.1.0

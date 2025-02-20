@@ -43,7 +43,7 @@ func (x *CartItem) fastReadField1(buf []byte, _type int8) (offset int, err error
 }
 
 func (x *CartItem) fastReadField2(buf []byte, _type int8) (offset int, err error) {
-	x.Quality, offset, err = fastpb.ReadUint32(buf, _type)
+	x.Quantity, offset, err = fastpb.ReadUint32(buf, _type)
 	return offset, err
 }
 
@@ -211,10 +211,10 @@ func (x *CartItem) fastWriteField1(buf []byte) (offset int) {
 }
 
 func (x *CartItem) fastWriteField2(buf []byte) (offset int) {
-	if x.Quality == 0 {
+	if x.Quantity == 0 {
 		return offset
 	}
-	offset += fastpb.WriteUint32(buf[offset:], 2, x.GetQuality())
+	offset += fastpb.WriteUint32(buf[offset:], 2, x.GetQuantity())
 	return offset
 }
 
@@ -325,10 +325,10 @@ func (x *CartItem) sizeField1() (n int) {
 }
 
 func (x *CartItem) sizeField2() (n int) {
-	if x.Quality == 0 {
+	if x.Quantity == 0 {
 		return n
 	}
-	n += fastpb.SizeUint32(2, x.GetQuality())
+	n += fastpb.SizeUint32(2, x.GetQuantity())
 	return n
 }
 
@@ -423,7 +423,7 @@ func (x *EmptyCartResp) Size() (n int) {
 
 var fieldIDToName_CartItem = map[int32]string{
 	1: "ProductId",
-	2: "Quality",
+	2: "Quantity",
 }
 
 var fieldIDToName_AddItemReq = map[int32]string{
