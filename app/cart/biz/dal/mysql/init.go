@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/Rogue-Trader-zzy/gomall/app/cart/biz/model"
 	"github.com/Rogue-Trader-zzy/gomall/app/cart/conf"
 
 	"gorm.io/driver/mysql"
@@ -27,6 +28,7 @@ func Init() {
 			SkipDefaultTransaction: true,
 		},
 	)
+	DB.AutoMigrate(&model.Cart{})
 	if err != nil {
 		panic(err)
 	}

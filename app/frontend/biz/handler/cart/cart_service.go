@@ -28,7 +28,7 @@ func GetCart(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	c.HTML(consts.StatusOK, "cart", resp)
+	c.HTML(consts.StatusOK, "cart", utils.WarpResponse(ctx, c, resp))
 	// utils.SendSuccessResponse(ctx, c, consts.StatusOK, resp)
 }
 
@@ -43,11 +43,11 @@ func AddCartItem(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp, err := service.NewAddCartItemService(ctx, c).Run(&req)
-
+	_, err = service.NewAddCartItemService(ctx, c).Run(&req)
 	if err != nil {
 		utils.SendErrResponse(ctx, c, consts.StatusOK, err)
 		return
 	}
-	utils.SendSuccessResponse(ctx, c, consts.StatusOK, resp)
+	c.Redirect(consts.StatusFound, []byte("/cart"))
+	// utils.SendSuccessResponse(ctx, c, consts.StatusOK, resp)
 }
