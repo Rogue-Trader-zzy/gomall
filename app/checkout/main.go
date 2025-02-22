@@ -5,13 +5,11 @@ import (
 	"net"
 	"time"
 
-	"github.com/Rogue-Trader-zzy/gomall/app/payment/biz/dal"
-	"github.com/Rogue-Trader-zzy/gomall/app/payment/conf"
-	"github.com/Rogue-Trader-zzy/gomall/rpc_gen/kitex_gen/payment/paymentservice"
+	"github.com/Rogue-Trader-zzy/gomall/app/checkout/conf"
+	"github.com/Rogue-Trader-zzy/gomall/rpc_gen/kitex_gen/checkout/checkoutservice"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"github.com/cloudwego/kitex/server"
-	"github.com/joho/godotenv"
 	kitexlogrus "github.com/kitex-contrib/obs-opentelemetry/logging/logrus"
 	consul "github.com/kitex-contrib/registry-consul"
 	"go.uber.org/zap/zapcore"
@@ -19,11 +17,9 @@ import (
 )
 
 func main() {
-	_ = godotenv.Load()
-	dal.Init()
 	opts := kitexInit()
 
-	svr := paymentservice.NewServer(new(PaymentServiceImpl), opts...)
+	svr := checkoutservice.NewServer(new(CheckoutServiceImpl), opts...)
 
 	err := svr.Run()
 	if err != nil {
@@ -38,6 +34,7 @@ func kitexInit() (opts []server.Option) {
 		panic(err)
 	}
 	opts = append(opts, server.WithServiceAddr(addr))
+
 	r, err := consul.NewConsulRegister(conf.GetConf().Registry.RegistryAddress[0])
 	if err != nil {
 		log.Fatal(err)

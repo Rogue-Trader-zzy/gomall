@@ -2,30 +2,16 @@ package main
 
 import (
 	"context"
-	cart "github.com/Rogue-Trader-zzy/gomall/rpc_gen/kitex_gen/cart"
+	payment "github.com/Rogue-Trader-zzy/gomall/rpc_gen/kitex_gen/payment"
 	"github.com/Rogue-Trader-zzy/gomall/app/payment/biz/service"
 )
 
-// CartServiceImpl implements the last service interface defined in the IDL.
-type CartServiceImpl struct{}
+// PaymentServiceImpl implements the last service interface defined in the IDL.
+type PaymentServiceImpl struct{}
 
-// AddItem implements the CartServiceImpl interface.
-func (s *CartServiceImpl) AddItem(ctx context.Context, req *cart.AddItemReq) (resp *cart.AddItemResp, err error) {
-	resp, err = service.NewAddItemService(ctx).Run(req)
-
-	return resp, err
-}
-
-// GetCart implements the CartServiceImpl interface.
-func (s *CartServiceImpl) GetCart(ctx context.Context, req *cart.GetCartReq) (resp *cart.GetCartResp, err error) {
-	resp, err = service.NewGetCartService(ctx).Run(req)
-
-	return resp, err
-}
-
-// EmptyCart implements the CartServiceImpl interface.
-func (s *CartServiceImpl) EmptyCart(ctx context.Context, req *cart.EmptyCartReq) (resp *cart.EmptyCartResp, err error) {
-	resp, err = service.NewEmptyCartService(ctx).Run(req)
+// Charge implements the PaymentServiceImpl interface.
+func (s *PaymentServiceImpl) Charge(ctx context.Context, req *payment.ChargeReq) (resp *payment.ChargeResp, err error) {
+	resp, err = service.NewChargeService(ctx).Run(req)
 
 	return resp, err
 }

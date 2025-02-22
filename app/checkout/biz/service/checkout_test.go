@@ -3,15 +3,15 @@ package service
 import (
 	"context"
 	"testing"
-	cart "github.com/Rogue-Trader-zzy/gomall/rpc_gen/kitex_gen/cart"
+	checkout "github.com/Rogue-Trader-zzy/gomall/rpc_gen/kitex_gen/checkout"
 )
 
-func TestAddItem_Run(t *testing.T) {
+func TestCheckout_Run(t *testing.T) {
 	ctx := context.Background()
-	s := NewAddItemService(ctx)
+	s := NewCheckoutService(ctx)
 	// init req and assert value
 
-	req := &cart.AddItemReq{}
+	req := &checkout.CheckoutReq{}
 	resp, err := s.Run(req)
 	t.Logf("err: %v", err)
 	t.Logf("resp: %v", resp)
