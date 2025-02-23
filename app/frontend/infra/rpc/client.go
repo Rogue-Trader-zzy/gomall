@@ -66,6 +66,6 @@ func iniCheckoutClient() {
 	frontendUtils.MustHandleError(err)
 	opts = append(opts, client.WithResolver(r))
 
-	CheckoutClient, err = checkoutservice.NewClient("checkout ", opts...)
+	CheckoutClient, err = checkoutservice.NewClient("checkout", opts...)
 	frontendUtils.MustHandleError(err)
 }

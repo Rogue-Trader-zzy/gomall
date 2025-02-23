@@ -3,7 +3,7 @@ module github.com/Rogue-Trader-zzy/gomall/app/product
 go 1.22.12
 
 require (
-	github.com/Rogue-Trader-zzy/gomall/rpc_gen v0.0.0-20250217163022-f993424ead49
+	github.com/Rogue-Trader-zzy/gomall/rpc_gen v0.0.0-20250222112100-c19f8547d1b8
 	github.com/cloudwego/kitex v0.12.2
 	github.com/kitex-contrib/obs-opentelemetry/logging/logrus v0.0.0-20241120035129-55da83caab1b
 	github.com/kitex-contrib/registry-consul v0.1.0

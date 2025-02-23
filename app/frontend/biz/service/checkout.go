@@ -4,7 +4,7 @@ import (
 	"context"
 	"strconv"
 
-	checkout "github.com/Rogue-Trader-zzy/gomall/app/frontend/hertz_gen/frontend/checkout"
+	common "github.com/Rogue-Trader-zzy/gomall/app/frontend/hertz_gen/frontend/common"
 	"github.com/Rogue-Trader-zzy/gomall/app/frontend/infra/rpc"
 	frontendUtils "github.com/Rogue-Trader-zzy/gomall/app/frontend/utils"
 	rpccart "github.com/Rogue-Trader-zzy/gomall/rpc_gen/kitex_gen/cart"
@@ -22,7 +22,7 @@ func NewCheckoutService(Context context.Context, RequestContext *app.RequestCont
 	return &CheckoutService{RequestContext: RequestContext, Context: Context}
 }
 
-func (h *CheckoutService) Run(req *checkout.CheckoutReq) (resp map[string]any, err error) {
+func (h *CheckoutService) Run(req *common.Empty) (resp map[string]any, err error) {
 	//defer func() {
 	// hlog.CtxInfof(h.Context, "req = %+v", req)
 	// hlog.CtxInfof(h.Context, "resp = %+v", resp)

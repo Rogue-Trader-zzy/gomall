@@ -7,7 +7,7 @@ import (
 
 	"github.com/Rogue-Trader-zzy/gomall/app/product/biz/dal"
 	"github.com/Rogue-Trader-zzy/gomall/app/product/conf"
-	"github.com/Rogue-Trader-zzy/gomall/rpc_gen/kitex_gen/product/productservice"
+	"github.com/Rogue-Trader-zzy/gomall/rpc_gen/kitex_gen/product/productcatalogservice"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"github.com/cloudwego/kitex/server"
@@ -23,7 +23,7 @@ func main() {
 	dal.Init()
 	opts := kitexInit()
 
-	svr := productservice.NewServer(new(ProductServiceImpl), opts...)
+	svr := productcatalogservice.NewServer(new(ProductCatalogServiceImpl), opts...)
 
 	err := svr.Run()
 	if err != nil {

@@ -6,7 +6,7 @@ import (
 	"github.com/Rogue-Trader-zzy/gomall/app/checkout/conf"
 	"github.com/Rogue-Trader-zzy/gomall/rpc_gen/kitex_gen/cart/cartservice"
 	paymentservice "github.com/Rogue-Trader-zzy/gomall/rpc_gen/kitex_gen/payment/paymentservice"
-	"github.com/Rogue-Trader-zzy/gomall/rpc_gen/kitex_gen/product/productcatalogservice"
+	productcatalogservice "github.com/Rogue-Trader-zzy/gomall/rpc_gen/kitex_gen/product/productcatalogservice"
 	"github.com/cloudwego/kitex/client"
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"github.com/cloudwego/kitex/pkg/transmeta"
@@ -19,7 +19,6 @@ var (
 	ProductClient productcatalogservice.Client
 	PaymentClient paymentservice.Client
 	once          sync.Once
-	err           error
 )
 
 func InitClient() {
