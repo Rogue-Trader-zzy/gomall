@@ -9,7 +9,7 @@ gen-demo-thrift:
 
 .PHONY: gen-frontend
 gen-frontend:
-	@cd app/frontend && cwgo server --type HTTP --idl ../../idl/frontend/checkout_page.proto --service frontend -module ${ROOT_MOD}/app/frontend -I ../../idl
+	@cd app/frontend && cwgo server --type HTTP --idl ../../idl/frontend/order_page.proto --service frontend -module ${ROOT_MOD}/app/frontend -I ../../idl
 
 .PHONY: gen-user
 gen-user:
@@ -37,6 +37,11 @@ gen-checkout:
 	@cd app/checkout && cwgo server --type RPC --service checkout --module ${ROOT_MOD}/app/checkout --pass "-use ${ROOT_MOD}/rpc_gen/kitex_gen" -I ../../idl --idl ../../idl/checkout.proto
 
 .PHONY: gen-order
-gen-checkout:
+gen-order:
 	@cd rpc_gen && cwgo client -type RPC --service order --module ${ROOT_MOD}/rpc_gen -I ../idl --idl ../idl/order.proto
 	@cd app/order && cwgo server --type RPC --service order --module ${ROOT_MOD}/app/order --pass "-use ${ROOT_MOD}/rpc_gen/kitex_gen" -I ../../idl --idl ../../idl/order.proto
+
+.PHONY: gen-email
+gen-email:
+	@cd rpc_gen && cwgo client -type RPC --service email --module ${ROOT_MOD}/rpc_gen -I ../idl --idl ../idl/email.proto
+	@cd app/email && cwgo server --type RPC --service email --module ${ROOT_MOD}/app/email --pass "-use ${ROOT_MOD}/rpc_gen/kitex_gen" -I ../../idl --idl ../../idl/email.proto

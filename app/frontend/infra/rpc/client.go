@@ -7,6 +7,7 @@ import (
 	frontendUtils "github.com/Rogue-Trader-zzy/gomall/app/frontend/utils"
 	cartservice "github.com/Rogue-Trader-zzy/gomall/rpc_gen/kitex_gen/cart/cartservice"
 	checkoutservice "github.com/Rogue-Trader-zzy/gomall/rpc_gen/kitex_gen/checkout/checkoutservice"
+	orderservice "github.com/Rogue-Trader-zzy/gomall/rpc_gen/kitex_gen/order/orderservice"
 	productcatalogservice "github.com/Rogue-Trader-zzy/gomall/rpc_gen/kitex_gen/product/productcatalogservice"
 	userservice "github.com/Rogue-Trader-zzy/gomall/rpc_gen/kitex_gen/user/userservice"
 	"github.com/cloudwego/kitex/client"
@@ -17,6 +18,7 @@ var (
 	UserClient     userservice.Client
 	ProductClient  productcatalogservice.Client
 	CartClient     cartservice.Client
+	OrderClient    orderservice.Client
 	CheckoutClient checkoutservice.Client
 	once           sync.Once
 )
@@ -27,6 +29,7 @@ func Init() {
 		iniProductClient()
 		iniCartClient()
 		iniCheckoutClient()
+		iniOrderClient()
 	})
 }
 
@@ -67,5 +70,15 @@ func iniCheckoutClient() {
 	opts = append(opts, client.WithResolver(r))
 
 	CheckoutClient, err = checkoutservice.NewClient("checkout", opts...)
+	frontendUtils.MustHandleError(err)
+}
+
+func iniOrderClient() {
+	var opts []client.Option
+	r, err := consul.NewConsulResolver(conf.GetConf().Hertz.RegistryAddr)
+	frontendUtils.MustHandleError(err)
+	opts = append(opts, client.WithResolver(r))
+
+	OrderClient, err = orderservice.NewClient("order", opts...)
 	frontendUtils.MustHandleError(err)
 }
