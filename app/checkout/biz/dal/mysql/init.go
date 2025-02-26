@@ -5,6 +5,7 @@ import (
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/plugin/opentelemetry/tracing"
 )
 
 var (
@@ -19,7 +20,7 @@ func Init() {
 			SkipDefaultTransaction: true,
 		},
 	)
-	if err != nil {
+	if err := DB.Use(tracing.NewPlugin(tracing.WithoutMetrics())); err != nil {
 		panic(err)
 	}
 }

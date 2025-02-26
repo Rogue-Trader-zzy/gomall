@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	common "github.com/Rogue-Trader-zzy/gomall/app/frontend/hertz_gen/frontend/common"
@@ -62,8 +61,6 @@ func (h *OrderListService) Run(req *common.Empty) (resp map[string]any, err erro
 			})
 		}
 		created := time.Unix(int64(v.CreatedAt), 0)
-		fmt.Printf("Resolved instances: %+v\n", v.OrderId)
-		fmt.Printf("Resolved instances: %+v\n", created.Format("2006-01-02 15:04:05"))
 		list = append(list, types.Order{
 			OrderId:     v.OrderId,
 			CreatedDate: created.Format("2006-01-02 15:04:05"),

@@ -1,12 +1,14 @@
 package main
 
 import (
+	"context"
 	"net"
 	"time"
 
 	"github.com/Rogue-Trader-zzy/gomall/app/cart/biz/dal"
 	"github.com/Rogue-Trader-zzy/gomall/app/cart/conf"
 	"github.com/Rogue-Trader-zzy/gomall/app/cart/rpc"
+	"github.com/Rogue-Trader-zzy/gomall/common/mtl"
 	serversuite "github.com/Rogue-Trader-zzy/gomall/common/serversuite"
 	"github.com/Rogue-Trader-zzy/gomall/rpc_gen/kitex_gen/cart/cartservice"
 	"github.com/cloudwego/kitex/pkg/klog"
@@ -18,12 +20,15 @@ import (
 )
 
 var (
-	RegistryAddr = conf.GetConf().Kitex.RegistryAddr
-	ServiceName  = conf.GetConf().Kitex.ServiceName
+	RegistryAddr = conf.GetConf().Registry.RegistryAddress[0]
+	ServiceName  = conf.GetConf().Kitex.Service
 )
 
 func main() {
 	_ = godotenv.Load()
+	mtl.InitMetrics(ServiceName, conf.GetConf().Kitex.MetricsPort, RegistryAddr)
+	p := mtl.InitTracing(ServiceName)
+	defer p.Shutdown(context.Background())
 	dal.Init()
 	rpc.InitClient()
 
@@ -45,7 +50,7 @@ func kitexInit() (opts []server.Option) {
 	}
 	opts = append(opts, server.WithServiceAddr(addr), server.WithSuite(serversuite.CommonServerSuite{
 		CurrentServiceName: ServiceName,
-		RegistryAddraddr:   RegistryAddr,
+		RegistryAddr:       RegistryAddr,
 	}))
 
 	// klog

@@ -1,25 +1,33 @@
 package main
 
 import (
-	"log"
+	"context"
 	"net"
 	"time"
 
 	"github.com/Rogue-Trader-zzy/gomall/app/payment/biz/dal"
 	"github.com/Rogue-Trader-zzy/gomall/app/payment/conf"
+	"github.com/Rogue-Trader-zzy/gomall/common/mtl"
+	"github.com/Rogue-Trader-zzy/gomall/common/serversuite"
 	"github.com/Rogue-Trader-zzy/gomall/rpc_gen/kitex_gen/payment/paymentservice"
 	"github.com/cloudwego/kitex/pkg/klog"
-	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"github.com/cloudwego/kitex/server"
 	"github.com/joho/godotenv"
 	kitexlogrus "github.com/kitex-contrib/obs-opentelemetry/logging/logrus"
-	consul "github.com/kitex-contrib/registry-consul"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
 )
 
+var (
+	RegistryAddr = conf.GetConf().Registry.RegistryAddress[0]
+	ServiceName  = conf.GetConf().Kitex.Service
+)
+
 func main() {
 	_ = godotenv.Load()
+	mtl.InitMetrics(ServiceName, conf.GetConf().Kitex.MetricsPort, RegistryAddr)
+	p := mtl.InitTracing(ServiceName)
+	defer p.Shutdown(context.Background())
 	dal.Init()
 	opts := kitexInit()
 
@@ -37,17 +45,10 @@ func kitexInit() (opts []server.Option) {
 	if err != nil {
 		panic(err)
 	}
-	opts = append(opts, server.WithServiceAddr(addr))
-	r, err := consul.NewConsulRegister(conf.GetConf().Registry.RegistryAddress[0])
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// service info
-	opts = append(opts, server.WithServerBasicInfo(&rpcinfo.EndpointBasicInfo{
-		ServiceName: conf.GetConf().Kitex.Service,
+	opts = append(opts, server.WithServiceAddr(addr), server.WithSuite(serversuite.CommonServerSuite{
+		CurrentServiceName: ServiceName,
+		RegistryAddr:       RegistryAddr,
 	}))
-	opts = append(opts, server.WithRegistry(r))
 
 	// klog
 	logger := kitexlogrus.NewLogger()

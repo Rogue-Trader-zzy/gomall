@@ -6,6 +6,7 @@ import (
 
 	"github.com/Rogue-Trader-zzy/gomall/app/cart/biz/model"
 	"github.com/Rogue-Trader-zzy/gomall/app/cart/conf"
+	"gorm.io/plugin/opentelemetry/tracing"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -28,6 +29,9 @@ func Init() {
 			SkipDefaultTransaction: true,
 		},
 	)
+	if err := DB.Use(tracing.NewPlugin(tracing.WithoutMetrics())); err != nil {
+		panic(err)
+	}
 	DB.AutoMigrate(&model.Cart{})
 	if err != nil {
 		panic(err)
