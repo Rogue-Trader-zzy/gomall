@@ -85,7 +85,7 @@ func main() {
 	})
 
 	h.GET("/about", func(c context.Context, ctx *app.RequestContext) {
-		hlog.CtxInfof(c, "CloudWeGo shop about page")
+		hlog.CtxInfof(c, "CloudWeG o shop about page")
 		ctx.HTML(consts.StatusOK, "about", utils.H{"Title": "About"})
 	})
 

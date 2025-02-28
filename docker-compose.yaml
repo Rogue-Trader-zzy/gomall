@@ -1,4 +1,3 @@
-version: '3'
 services:
   consul:
     image: 'hashicorp/consul'
@@ -10,10 +9,19 @@ services:
       - 3306:3306
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=demo_proto
+      # - MYSQL_DATABASE=demo_proto
       # - MYSQL_USER=gorm
       # - MYSQL_PASSWORD=gorm
       # - MYSQL_RANDOM_ROOT_PASSWORD="yes"
+    volumes:
+      - ./db/sql/ini:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 1m
+
   redis:
     image: 'redis:latest'
     ports:
@@ -61,3 +69,173 @@ services:
       - ./deploy/config/promtail.yml:/etc/promtail/config.yml
       - ./app/frontend/log:/logs/frontend
     command: -config.file=/etc/promtail/config.yml
+  frontend:
+    image: "gomall-frontend:latest"
+    # build: 
+    #   context: .
+    #   dockerfile: ./deploy/Dockerfile.frontend
+    ports:
+      - 8080:8080
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://127.0.0.1:4317
+      - OTEL_EXPORTER_OTLP_INSECURE=true
+      - SESSION_SECRET=LKJFLKSDAJFSA
+      - GO_ENV=dev
+    depends_on:
+      - consul
+      - redis
+    volumes:
+      - ./app/frontend/conf/dev:/opt/gomall/frontend/conf/dev
+
+  product:
+    image: "gomall-product:latest"
+    # build: 
+    #   context: .
+    #   dockerfile: ./deploy/Dockerfile.svc
+    #   args:
+    #     - SVC=product
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_HOST=mysql
+      - GO_ENV=dev
+    depends_on:
+      consul: 
+        condition: service_started
+      mysql: 
+        condition: service_healthy
+    volumes:
+      - ./app/product/conf/dev:/opt/gomall/product/conf/dev
+
+  user:
+    image: "gomall-user:latest"
+    # build: 
+    #   context: .
+    #   dockerfile: ./deploy/Dockerfile.svc
+    #   args:
+    #     - SVC=user
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_HOST=mysql
+      - OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=jaeger-all-in-one:4317
+      - OTEL_EXPORTER_OTLP_INSECURE=true
+      - GO_ENV=dev
+    depends_on:
+      consul: 
+        condition: service_started
+      mysql: 
+        condition: service_healthy
+    volumes:
+      - ./app/user/conf/dev:/opt/gomall/user/conf/dev
+
+  cart:
+    image: "gomall-cart:latest"
+    # build: 
+    #   context: .
+    #   dockerfile: ./deploy/Dockerfile.svc
+    #   args:
+    #     - SVC=cart
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_HOST=mysql
+      - OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=jaeger-all-in-one:4317
+      - OTEL_EXPORTER_OTLP_INSECURE=true
+      - GO_ENV=dev
+    depends_on:
+      consul: 
+        condition: service_started
+      mysql: 
+        condition: service_healthy
+    volumes:
+      - ./app/cart/conf/dev:/opt/gomall/cart/conf/dev
+
+  order:
+    image: "gomall-order:latest"
+    # build: 
+    #   context: .
+    #   dockerfile: ./deploy/Dockerfile.svc
+    #   args:
+    #     - SVC=order
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_HOST=mysql
+      - OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=jaeger-all-in-one:4317
+      - OTEL_EXPORTER_OTLP_INSECURE=true
+      - GO_ENV=dev
+    depends_on:
+      consul: 
+        condition: service_started
+      mysql: 
+        condition: service_healthy
+    volumes:
+      - ./app/order/conf/dev:/opt/gomall/order/conf/dev
+
+  checkout:
+    image: "gomall-checkout:v1.1.1"
+    # build: 
+    #   context: .
+    #   dockerfile: ./deploy/Dockerfile.svc
+    #   network: gomall_default
+    #   args:
+    #     - SVC=checkout
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_HOST=mysql
+      - OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=jaeger-all-in-one:4317
+      - OTEL_EXPORTER_OTLP_INSECURE=true
+      - GO_ENV=dev
+    depends_on:
+      consul: 
+        condition: service_started
+      mysql: 
+        condition: service_healthy
+    volumes:
+      - ./app/checkout/conf/dev:/opt/gomall/checkout/conf/dev
+
+  email:
+    image: "gomall-email:latest"
+    # build: 
+    #   context: .
+    #   dockerfile: ./deploy/Dockerfile.svc
+    #   args:
+    #     - SVC=email
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_HOST=mysql
+      - OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=jaeger-all-in-one:4317
+      - OTEL_EXPORTER_OTLP_INSECURE=true
+      - GO_ENV=dev
+    depends_on:
+      consul: 
+        condition: service_started
+      mysql: 
+        condition: service_healthy
+    volumes:
+      - ./app/email/conf/dev:/opt/gomall/email/conf/dev
+
+  payment:
+    image: "gomall-payment:latest"
+    # build: 
+    #   context: .
+    #   dockerfile: ./deploy/Dockerfile.svc
+    #   args:
+    #     - SVC=payment
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_HOST=mysql
+      - OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=jaeger-all-in-one:4317
+      - OTEL_EXPORTER_OTLP_INSECURE=true
+      - GO_ENV=dev
+    depends_on:
+      consul: 
+        condition: service_started
+      mysql: 
+        condition: service_healthy
+    volumes:
+      - ./app/payment/conf/dev:/opt/gomall/payment/conf/dev

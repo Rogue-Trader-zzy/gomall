@@ -6,6 +6,7 @@ import (
 
 	"github.com/Rogue-Trader-zzy/gomall/app/payment/biz/model"
 	"github.com/Rogue-Trader-zzy/gomall/app/payment/conf"
+	"github.com/cloudwego/kitex/pkg/klog"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -32,8 +33,9 @@ func Init() {
 	if err := DB.Use(tracing.NewPlugin(tracing.WithoutMetrics())); err != nil {
 		panic(err)
 	}
-	DB.AutoMigrate(&model.PaymentLog{})
-	if err != nil {
-		panic(err)
+	if os.Getenv("GO_ENV") != "online" {
+		if err := DB.AutoMigrate(&model.PaymentLog{}); err != nil {
+			klog.Error(err)
+		}
 	}
 }
