@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package assistant;
+
+import "order.proto";
+
+option go_package = "assistant";
+
+service AssistantService {
+  rpc HandleRequest(AssistantRequest) returns (AssistantResponse) {}
+}
+
+message AssistantRequest {
+  uint32 user_id = 1;
+  string natural_language = 2;
+}
+
+message AssistantResponse {
+  message OrderResult {
+    order.PlaceOrderResp place_order = 1;
+    order.ListOrderResp list_order = 2;
+    order.MarkOrderPaidResp mark_paid = 3;
+  }
+  
+  string natural_response = 1;
+  OrderResult data = 2;
+}
